@@ -83,7 +83,7 @@
         <button class="tabs" id="Long-break" onclick="longBreak()">Long Break</button>
     </div>
     <div class="time">
-        <b><span id="current-timer">25</span>:</b>
+        <b><span id="current-timer">00</span>:</b>
         <b><span id="seconds">00</span></b>
     </div>
     <hr>
@@ -99,18 +99,22 @@
         <button class="action off" onclick="pauseTimer()"  id="pause-timer">Pause</button>
         <button class="action off" onclick="resetTimer()"  id="reset-timer">Reset</button>
     </div>
-
-
 </div>
 <script>
     const timerList = document.querySelectorAll(".tabs");
     const time = document.getElementById("current-timer");
+    const seconds = document.getElementById("seconds");
     const pause = document.getElementById("pause-timer");
     const reset = document.getElementById("reset-timer");
     const start = document.getElementById("start-timer");
     const resume = document.getElementById("resume-timer");
+    let initialMinute;
+    let timerInterval;
     function Onfocus () {
+        clearInterval(timerInterval);
+        resetTimer();
         time.innerText = "25";
+        seconds.innerText = "00";
         timerList.forEach(timer => {
             if (timer.id === "focus"){
                 const focus = document.getElementById("focus");
@@ -120,7 +124,10 @@
             }})}
 
     function shortBreak () {
+        clearInterval(timerInterval);
+        resetTimer();
         time.innerText = "05";
+        seconds.innerText = "00";
         timerList.forEach(timer => {
             if (timer.id === "Short-break"){
                 const shortBreak = document.getElementById("Short-break");
@@ -130,7 +137,10 @@
             }})}
 
     function longBreak () {
+        clearInterval(timerInterval);
+        resetTimer();
         time.innerText = "10";
+        seconds.innerText = "00";
         timerList.forEach(timer => {
             if (timer.id === "Long-break"){
                 const longBreak = document.getElementById("Long-break");
@@ -154,29 +164,65 @@
         const addedTime = parseInt(time.innerText) + 1;
         time.innerText = addedTime.toString();
     }
+    function startCounting (minutes,secondsLeft){
+        timerInterval = setInterval(() => {
+            if (secondsLeft === 0){
+                if (minutes === 0){
+                    clearInterval(timerInterval);
+                    return;
+                }
+                minutes--;
+                time.innerText = minutes.toString().padStart(2,"0");
+                secondsLeft = 59;
+            } else {
+                secondsLeft--;
+            }
+            seconds.innerText = secondsLeft.toString().padStart(2,"0");
+        }, 1000);
+
+    }
     function startTimer(){
         start.classList.add("off");
         pause.classList.remove("off");
         reset.classList.remove("off");
         resume.classList.add("off");
+
+        let minutes = parseInt(time.innerText);
+        initialMinute = minutes;
+        let secondsLeft = 59;
+        seconds.innerText = "59";
+        time.innerText = minutes.toString().padStart(2, "0");
+        startCounting(minutes,secondsLeft);
     }
     function resetTimer(){
         start.classList.remove("off");
         pause.classList.add("off");
         reset.classList.add("off");
         resume.classList.add("off");
+
+        if (initialMinute === 5){
+            shortBreak();
+        }
+        else if (initialMinute === 10){
+            longBreak();
+        }
+        else {
+            clearInterval(timerInterval);
+        }
     }
     function pauseTimer(){
         start.classList.add("off");
         pause.classList.add("off");
         reset.classList.remove("off");
         resume.classList.remove("off");
+        clearInterval(timerInterval);
     }
     function resumeTimer(){
         start.classList.add("off");
         pause.classList.remove("off");
         reset.classList.remove("off");
         resume.classList.add("off");
+        startCounting(parseInt(time.innerText),parseInt(seconds.innerText));
     }
 </script>
 </body>
