@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .top-rec {
+            display: grid;
+            background-color: dimgrey;
+            border-radius: 20px;
+            width: 750px;
+            height: 400px;
+        }
+        .break-line {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 30px;
+        }
+        .tabs {
+            color: white;
+            height: 50px;
+            background-color: dimgrey;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .tabs.on {
+            border: black;
+        }
+        .time {
+            color: white;
+            margin-left: 240px;
+            font-size: 110px;
+            margin-top: -50px;
+
+        }
+        .top-rec hr {
+            height: 3px;
+            width: 440px;
+            margin-top: -40px;
+        }
+        .add-time {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: -60px;
+        }
+        .added-times {
+            height: 20px;
+            width: 60px;
+            background-color: dimgrey;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+    <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Pomodoro Timer</title>
+</head>
+<body style="background-color: grey; font-family: sans-serif">
+<div class="top-rec">
+    <div class="break-line">
+        <button class="tabs" id="focus" onclick="Onfocus()">Focus</button>
+        <button class="tabs" id="Short-break" onclick="shortBreak()" >Short Break</button>
+        <button class="tabs" id="Long-break" onclick="longBreak()">Long Break</button>
+    </div>
+    <div class="time">
+        <b><span id="current-timer">25</span>:00</b>
+    </div>
+    <hr>
+    <div class="add-time">
+        <button class="added-times" onclick="add25mins()">+25 min</button>
+        <button class="added-times" onclick="add10mins()">+10 min</button>
+        <button class="added-times" onclick="add5mins()">+5 min</button>
+        <button class="added-times" onclick="add1min()">+1 min</button>
+    </div>
+</div>
+<script>
+    const timerList = document.querySelectorAll(".tabs");
+    const time = document.getElementById("current-timer");
+    function Onfocus () {
+        time.innerText = "25";
+        timerList.forEach(timer => {
+            if (timer.id === "focus"){
+                const focus = document.getElementById("focus");
+                focus.classList.toggle("on");
+            } else {
+                timer.classList.remove("on");
+            }})}
+
+    function shortBreak () {
+        time.innerText = "05";
+        timerList.forEach(timer => {
+            if (timer.id === "Short-break"){
+                const shortBreak = document.getElementById("Short-break");
+                shortBreak.classList.toggle("on");
+            } else {
+                timer.classList.remove("on");
+            }})}
+
+    function longBreak () {
+        time.innerText = "10";
+        timerList.forEach(timer => {
+            if (timer.id === "Long-break"){
+                const longBreak = document.getElementById("Long-break");
+                longBreak.classList.toggle("on");
+            } else {
+                timer.classList.remove("on");
+            }})}
+    function add25mins (){
+        const addedTime = parseInt(time.innerText) + 25;
+        time.innerText = addedTime.toString();
+    }
+    function add10mins(){
+        const addedTime = parseInt(time.innerText) + 10;
+        time.innerText = addedTime.toString();
+    }
+    function add5mins(){
+        const addedTime = parseInt(time.innerText) + 5;
+        time.innerText = addedTime.toString();
+    }
+    function add1min(){
+        const addedTime = parseInt(time.innerText) + 1;
+        time.innerText = addedTime.toString();
+    }
+</script>
+</body>
+</html>
