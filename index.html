@@ -31,7 +31,7 @@
             margin-left: 240px;
             font-size: 110px;
             margin-top: -50px;
-
+            display: flex;
         }
         .top-rec hr {
             height: 3px;
@@ -52,6 +52,24 @@
             border: none;
             cursor: pointer;
         }
+        .action {
+            width: 60px;
+            height: 20px;
+            background-color: dimgrey;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            display: block;
+        }
+        .action-nav {
+            justify-content: center;
+            display: flex;
+            gap: 10px;
+            margin-right: -20px;
+        }
+        .action.off {
+            display: none;
+        }
     </style>
     <link href="style.css" rel="stylesheet">
     <meta charset="UTF-8">
@@ -65,7 +83,8 @@
         <button class="tabs" id="Long-break" onclick="longBreak()">Long Break</button>
     </div>
     <div class="time">
-        <b><span id="current-timer">25</span>:00</b>
+        <b><span id="current-timer">25</span>:</b>
+        <b><span id="seconds">00</span></b>
     </div>
     <hr>
     <div class="add-time">
@@ -74,10 +93,22 @@
         <button class="added-times" onclick="add5mins()">+5 min</button>
         <button class="added-times" onclick="add1min()">+1 min</button>
     </div>
+    <div class="action-nav">
+        <button class="action" onclick="startTimer()" id="start-timer">Start</button>
+        <button class="action off" onclick="resumeTimer()" id="resume-timer">Resume</button>
+        <button class="action off" onclick="pauseTimer()"  id="pause-timer">Pause</button>
+        <button class="action off" onclick="resetTimer()"  id="reset-timer">Reset</button>
+    </div>
+
+
 </div>
 <script>
     const timerList = document.querySelectorAll(".tabs");
     const time = document.getElementById("current-timer");
+    const pause = document.getElementById("pause-timer");
+    const reset = document.getElementById("reset-timer");
+    const start = document.getElementById("start-timer");
+    const resume = document.getElementById("resume-timer");
     function Onfocus () {
         time.innerText = "25";
         timerList.forEach(timer => {
@@ -122,6 +153,30 @@
     function add1min(){
         const addedTime = parseInt(time.innerText) + 1;
         time.innerText = addedTime.toString();
+    }
+    function startTimer(){
+        start.classList.add("off");
+        pause.classList.remove("off");
+        reset.classList.remove("off");
+        resume.classList.add("off");
+    }
+    function resetTimer(){
+        start.classList.remove("off");
+        pause.classList.add("off");
+        reset.classList.add("off");
+        resume.classList.add("off");
+    }
+    function pauseTimer(){
+        start.classList.add("off");
+        pause.classList.add("off");
+        reset.classList.remove("off");
+        resume.classList.remove("off");
+    }
+    function resumeTimer(){
+        start.classList.add("off");
+        pause.classList.remove("off");
+        reset.classList.remove("off");
+        resume.classList.add("off");
     }
 </script>
 </body>
